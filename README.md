@@ -1,5 +1,5 @@
 # Little Helpers Backend
 
 ### ERD
-![ERD]
-(/ERD.png)
+![](ERD.png)
+
