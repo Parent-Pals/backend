@@ -1,4 +1,5 @@
 # Little Helpers Backend
 
 ### ERD
-![(./README.md)]
+![ERD]
+(./README.md)
