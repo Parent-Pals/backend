@@ -9,9 +9,11 @@ const pug = require('pug');
 
 
 // var index = require('./routes/index');
-var parents = require('./routes/parents');
+
 
 var app = express();
+
+var parents = require('./routes/parents');
 
 // view engine setup
 // app.set('views', path.join(__dirname, 'views'));
