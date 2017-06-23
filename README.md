@@ -2,4 +2,4 @@
 
 ### ERD
 ![ERD]
-(./README.md)
+(./ERD.png)
