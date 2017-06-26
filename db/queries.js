@@ -6,7 +6,7 @@ module.exports = {
   },
   getParentByEmail: function(email){
     return knex('parent').where('email', email);
-  }
+  },
   getChildList: function(id) {
     return knex('child').where('parent_id', id).select('*');
   },
