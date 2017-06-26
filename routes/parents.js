@@ -28,8 +28,11 @@ router.delete('/:id/:id',function(req, res){
 })
 
 router.get('/:id/:id', function(req, res){
-  queries.getChildPage(req.params.id)
-    .then(child=>{
+  let childID = req.params.id
+  let child = queries.getChild(childID)
+  let rewards = queries.getChildReward(childID)
+  let tasks = queries.getChildTask(childID)
+    Promise.all([child,rewards,tasks]).then(child=>{
       res.json(child)
     })
 })

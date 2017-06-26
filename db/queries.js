@@ -10,32 +10,14 @@ module.exports = {
   deleteChild: function(id) {
     return knex('child').where('id', id).del();
   },
-  getChildPage: function(id) {
-    return knex('child').where('child.id', id)
-      .join('task', 'task.child_id', 'child.id')
-      .join('reward', 'reward.child_id', 'child.id')
-      .select('child.id as id', 'child.name as name', 'task.name as task_name', 'task.point_value as task_point_value', 'reward.name as reward_name', 'reward.point_value as reward_point_value')
-      .then(children => {
-        let newChild = {}
-        children.forEach(child => {
-          if (!newChild[child.id]) {
-            newChild = {
-              id: child.id,
-              name: child.name,
-              tasks: [],
-              rewards: []
-            }
-          }
-        })
-        children.forEach(child => {
-            newChild.tasks.push({
-              "task": child.task_name,
-              "task_value": child.task_point_value
-            })
-
-        })
-      })
-
+  getChild: function(id) {
+    return knex('child').where('child.id', id);
+  },
+  getChildTask: function(id) {
+    return knex('task').where('child_id', id);
+  },
+  getChildReward: function(id) {
+    return knex('reward').where('child_id', id);
   },
   createTask: function(task) {
     return knex('task').insert(reward).returning('*')
