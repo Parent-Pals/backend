@@ -1,6 +1,9 @@
 const knex = require('./knex');
 
 module.exports = {
+  getParentInfo: function(id){
+    return knex('parent').where('id', id).select('id', 'name');
+  },
   getChildList: function(id) {
     return knex('child').where('parent_id', id).select('*');
   },
@@ -10,14 +13,16 @@ module.exports = {
   deleteChild: function(id) {
     return knex('child').where('id', id).del();
   },
-  getChild: function(id) {
-    return knex('child').where('child.id', id);
+  getChild: function(id, childID) {
+    return knex('child').where('child.id', childID).andWhere('child.parent_id', id);
   },
-  getChildTask: function(id) {
-    return knex('task').where('child_id', id);
+  getChildTask: function(id, childID) {
+    return knex('task').join('child','task.child_id', 'child.id').where('task.child_id', childID).andWhere('child.parent_id', id)
+          .select('task.name as name', 'task.point_value')
   },
-  getChildReward: function(id) {
-    return knex('reward').where('child_id', id);
+  getChildReward: function(id, childID) {
+    return knex('reward').join('child', 'reward.child_id', 'child.id').where('reward.child_id', childID).andWhere('child.parent_id', id)
+          .select('reward.name as name', 'reward.point_value')
   },
   createTask: function(task) {
     return knex('task').insert(reward).returning('*')

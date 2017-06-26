@@ -5,8 +5,9 @@ const queries = require('../db/queries');
 
 /* GET users listing. */
 router.get('/:id', function(req, res, next) {
-  queries.getChildList(req.params.id)
-    .then(children=>{
+  let parent = queries.getParentInfo(req.params.id)
+  let child = queries.getChildList(req.params.id)
+    Promise.all([parent, child]).then(children=>{
       res.json(children);
     })
 });
@@ -27,11 +28,12 @@ router.delete('/:id/:id',function(req, res){
     })
 })
 
-router.get('/:id/:id', function(req, res){
-  let childID = req.params.id
-  let child = queries.getChild(childID)
-  let rewards = queries.getChildReward(childID)
-  let tasks = queries.getChildTask(childID)
+router.get('/:id/:childID', function(req, res){
+  let parentID = req.params.id
+  let childID = req.params.childID
+  let child = queries.getChild(parentID, childID)
+  let rewards = queries.getChildReward(parentID, childID)
+  let tasks = queries.getChildTask(parentID, childID)
     Promise.all([child,rewards,tasks]).then(child=>{
       res.json(child)
     })
