@@ -2,7 +2,6 @@ var express = require('express');
 var router = express.Router();
 const bcrypt = require('bcrypt');
 const queries = require('../db/queries');
-console.log('loading route file')
 
 /* GET users listing. */
 router.get('/:id', function(req, res, next) {

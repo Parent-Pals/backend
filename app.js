@@ -7,14 +7,14 @@ var bodyParser = require('body-parser');
 const cors = require('cors');
 const pug = require('pug');
 
-console.log(1)
+
 // var index = require('./routes/index');
 
 var app = express();
 
 var parents = require('./routes/parents');
+const auth = require('./auth/auth')
 
-console.log(2)
 // view engine setup
 // app.set('views', path.join(__dirname, 'views'));
 // app.set('view engine', 'jade');
@@ -27,11 +27,10 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(cors());
 
-console.log(3)
 // app.use('/', index);
 app.use('/parent', parents);
+app.use('/auth', auth);
 
-console.log(4)
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   var err = new Error('Not Found');
@@ -45,7 +44,5 @@ app.use(function(err, req, res, next) {
   res.status(err.status || res.statusCode || 500);
   res.json({message: err.message, error:req.app.get('env') === 'development' ? err : {} });
 });
-
-console.log(5)
 
 module.exports = app;

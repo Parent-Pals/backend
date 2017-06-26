@@ -4,6 +4,9 @@ module.exports = {
   getParentInfo: function(id){
     return knex('parent').where('id', id).select('id', 'name');
   },
+  getParentByEmail: function(email){
+    return knex('parent').where('email', email);
+  }
   getChildList: function(id) {
     return knex('child').where('parent_id', id).select('*');
   },
