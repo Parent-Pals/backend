@@ -24,22 +24,6 @@ router.post('/register', (req, res) => {
   }
 })
 
-router.post('/login', (req, res, next) => {
-  if(validators.validUser(req.body)){
-    queries.getParentByEmail(req.body.email)
-    .then(parent => {
-      if (parent) {
-        bcrypt.compare(req.body.password, parent.password)
-        .then((result) => {
-          if (result){
-            //token here
-          }
-        })
-      }
-    })
-  }
-})
-
 
 
 module.exports = router;
