@@ -5,11 +5,7 @@ module.exports = {
     return knex('parent').where('id', id).select('id', 'name');
   },
   getParentByEmail: function(email){
-<<<<<<< HEAD
-
-=======
     return knex('parent').where('email', email).first();
->>>>>>> origin/master
   },
   getChildList: function(id) {
     return knex('child').where('parent_id', id).select('*');
