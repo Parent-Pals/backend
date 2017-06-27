@@ -13,8 +13,8 @@ module.exports = {
   createChild: function(child) {
     return knex('child').insert(child).returning('*');
   },
-  deleteChild: function(id) {
-    return knex('child').where('id', id).del();
+  deleteChild: function(id, childID) {
+    return knex('child').where('id', childID).andWhere('parent_id', id).del();
   },
   getChild: function(id, childID) {
     return knex('child').where('child.id', childID).andWhere('child.parent_id', id);
@@ -28,18 +28,21 @@ module.exports = {
           .select('reward.name as name', 'reward.point_value')
   },
   createTask: function(task) {
-    return knex('task').insert(reward).returning('*')
+    return knex('task').insert(task).returning('*')
   },
   createReward: function(reward) {
     return knex('reward').insert(reward).returning('*')
   },
-  deleteTask: function(id) {
-    return knex('task').where('id', id).del();
+  deleteTask: function(childID, taskID) {
+    return knex('task').where('id', taskID).andWhere('child_id', childID).del();
   },
-  deleteReward: function(id) {
-    return knex('reward').where('id', id).del();
+  deleteReward: function(childID, rewardID) {
+    return knex('reward').where('id', rewardID).andWhere('child_id', childID).del();
   },
   createParent: function(parent) {
     return knex('parent').insert(parent).returning('*')
+  },
+  updatePoints: function(parentID, childID, points){
+    return knex('child').where('id', childID).andWhere('parent_id', parentID).update('points', points)
   }
 }

@@ -19,8 +19,10 @@ router.post('/:id/', function(req, res){
   })
 })
 
-router.delete('/:id/:id',function(req, res){
-  queries.deleteChild(req.params.id)
+router.delete('/:id/:childID',function(req, res){
+  let parentID = req.params.id;
+  let childID = req.params.childID;
+  queries.deleteChild(parentID, childID)
     .then(()=>{
       res.json({
         deleted: true
@@ -39,22 +41,28 @@ router.get('/:id/:childID', function(req, res){
     })
 })
 
-router.post('/:id/:id/task', function(req, res){
-  queries.createTask(req.body)
+router.post('/:id/:childID/task', function(req, res){
+  let childID = req.params.childID;
+  let task = {name: req.body.name, point_value: req.body.point_value, child_id: childID};
+  queries.createTask(task)
     .then(tasks=>{
       res.send(tasks[0])
     })
 })
 
-router.post('/:id/:id/reward', function(req, res){
-  queries.createReward(req.body)
+router.post('/:id/:childID/reward', function(req, res){
+  let childID = req.params.childID;
+  let reward = {name: req.body.name, point_value: req.body.point_value, child_id: childID};
+  queries.createReward(reward)
     .then(rewards=>{
       res.send(rewards[0])
     })
 })
 
-router.delete('/:id/:id/task/:id', function(req, res){
-  queries.deleteTask(req.params.id)
+router.delete('/:id/:childID/task/:taskID', function(req, res){
+  let childID = req.params.childID;
+  let taskID = req.params.taskID;
+  queries.deleteTask(childID, taskID)
     .then(()=>{
       res.json({
         deleted: true
@@ -62,8 +70,10 @@ router.delete('/:id/:id/task/:id', function(req, res){
     })
 })
 
-router.delete('/:id/:id/reward/:id', function(req, res){
-  queries.deleteReward(req.params.id)
+router.delete('/:id/:childID/reward/:rewardID', function(req, res){
+  let childID = req.params.childID;
+  let rewardID = req.params.taskID;
+  queries.deleteReward(childID, taskID)
     .then(()=>{
       res.json({
         deleted: true
@@ -71,8 +81,10 @@ router.delete('/:id/:id/reward/:id', function(req, res){
     })
 })
 
-router.put('/:id/:id', function(req, res){
-  queries.updatePoints(req.params.id, req.body)
+router.put('/:id/:childID', function(req, res){
+  let parentID = req.params.id;
+  let childID = req.params.childID;
+  queries.updatePoints(parentID, childID, req.body.points)
     .then(child=>{
       res.json(child[0])
     })
