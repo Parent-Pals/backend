@@ -2,9 +2,10 @@ var express = require('express');
 var router = express.Router();
 const bcrypt = require('bcrypt');
 const queries = require('../db/queries');
+const authMiddleware = require('../auth/middleware.js')
 
 /* GET users listing. */
-router.get('/:id', function(req, res, next) {
+router.get('/:id', authMiddleware.allowAccess, function(req, res, next) {
   let parent = queries.getParentInfo(req.params.id)
   let child = queries.getChildList(req.params.id)
     Promise.all([parent, child]).then(children=>{
@@ -12,14 +13,14 @@ router.get('/:id', function(req, res, next) {
     })
 });
 
-router.post('/:id/', function(req, res){
+router.post('/:id/', authMiddleware.allowAccess, function(req, res){
   queries.createChild(req.body)
   .then(results=>{
     res.send(results[0]);
   })
 })
 
-router.delete('/:id/:childID',function(req, res){
+router.delete('/:id/:childID', authMiddleware.allowAccess, function(req, res){
   let parentID = req.params.id;
   let childID = req.params.childID;
   queries.deleteChild(parentID, childID)
@@ -30,7 +31,7 @@ router.delete('/:id/:childID',function(req, res){
     })
 })
 
-router.get('/:id/:childID', function(req, res){
+router.get('/:id/:childID', authMiddleware.allowAccess, function(req, res){
   let parentID = req.params.id
   let childID = req.params.childID
   let child = queries.getChild(parentID, childID)
@@ -41,7 +42,7 @@ router.get('/:id/:childID', function(req, res){
     })
 })
 
-router.post('/:id/:childID/task', function(req, res){
+router.post('/:id/:childID/task', authMiddleware.allowAccess, function(req, res){
   let childID = req.params.childID;
   let task = {name: req.body.name, point_value: req.body.point_value, child_id: childID};
   queries.createTask(task)
@@ -50,7 +51,7 @@ router.post('/:id/:childID/task', function(req, res){
     })
 })
 
-router.post('/:id/:childID/reward', function(req, res){
+router.post('/:id/:childID/reward', authMiddleware.allowAccess, function(req, res){
   let childID = req.params.childID;
   let reward = {name: req.body.name, point_value: req.body.point_value, child_id: childID};
   queries.createReward(reward)
@@ -59,7 +60,7 @@ router.post('/:id/:childID/reward', function(req, res){
     })
 })
 
-router.delete('/:id/:childID/task/:taskID', function(req, res){
+router.delete('/:id/:childID/task/:taskID', authMiddleware.allowAccess, function(req, res){
   let childID = req.params.childID;
   let taskID = req.params.taskID;
   queries.deleteTask(childID, taskID)
@@ -70,7 +71,7 @@ router.delete('/:id/:childID/task/:taskID', function(req, res){
     })
 })
 
-router.delete('/:id/:childID/reward/:rewardID', function(req, res){
+router.delete('/:id/:childID/reward/:rewardID', authMiddleware.allowAccess, function(req, res){
   let childID = req.params.childID;
   let rewardID = req.params.taskID;
   queries.deleteReward(childID, taskID)
@@ -81,7 +82,7 @@ router.delete('/:id/:childID/reward/:rewardID', function(req, res){
     })
 })
 
-router.put('/:id/:childID', function(req, res){
+router.put('/:id/:childID', authMiddleware.allowAccess, function(req, res){
   let parentID = req.params.id;
   let childID = req.params.childID;
   queries.updatePoints(parentID, childID, req.body.points)
