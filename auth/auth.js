@@ -46,30 +46,30 @@ router.post('/register', (req, res, next) => {
 })
 
 
-router.post('/login', (req, res, next)=>{
-  if(validators.validUser(req.body)){
-    queries.getParentByEmail(req.body.email)
-    .then ((parent) => {
-      if(parent){
-        jwt.sign({
-          id
-        }, process.env.TOKEN_SECRET, {expiresIn: '2h'}, (err, token)=> {
-          console.log('err', err);
-          console.log('token', token);
-          res.json({
-            id,
-            token,
-            message: 'I work'
-          })
-        });
-      } else {
-        next(new Error('Invalid Login!'))
-      }
-    })
-  }else {
-    next (new Error('Invalid Login!'))
-  }
-})
+// router.post('/login', (req, res, next)=>{
+//   if(validators.validUser(req.body)){
+//     queries.getParentByEmail(req.body.email)
+//     .then ((parent) => {
+//       if(parent){
+//         jwt.sign({
+//           id
+//         }, process.env.TOKEN_SECRET, {expiresIn: '2h'}, (err, token)=> {
+//           console.log('err', err);
+//           console.log('token', token);
+//           res.json({
+//             id,
+//             token,
+//             message: 'I work'
+//           })
+//         });
+//       } else {
+//         next(new Error('Invalid Login!'))
+//       }
+//     })
+//   }else {
+//     next (new Error('Invalid Login!'))
+//   }
+// })
 
 
 module.exports = router;
