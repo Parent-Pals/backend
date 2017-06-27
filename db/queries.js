@@ -5,7 +5,7 @@ module.exports = {
     return knex('parent').where('id', id).select('id', 'name');
   },
   getParentByEmail: function(email){
-    return knex('parent').where('email', email);
+    return knex('parent').where('email', email).first();
   },
   getChildList: function(id) {
     return knex('child').where('parent_id', id).select('*');
@@ -40,6 +40,8 @@ module.exports = {
     return knex('reward').where('id', id).del();
   },
   createParent: function(parent) {
-    return knex('parent').insert(parent).returning('*')
+    return knex('parent').insert(parent, 'id').then( ids=>{
+      return ids[0]
+    })
   }
 }
