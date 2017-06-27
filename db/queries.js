@@ -40,15 +40,11 @@ module.exports = {
     return knex('reward').where('id', rewardID).andWhere('child_id', childID).del();
   },
   createParent: function(parent) {
-<<<<<<< HEAD
-    return knex('parent').insert(parent).returning('*')
-  },
-  updatePoints: function(parentID, childID, points){
-    return knex('child').where('id', childID).andWhere('parent_id', parentID).update('points', points)
-=======
     return knex('parent').insert(parent, 'id').then( ids=>{
       return ids[0]
     })
->>>>>>> origin/master
+},
+  updatePoints: function(parentID, childID, points){
+    return knex('child').where('id', childID).andWhere('parent_id', parentID).update('points', points)
   }
 }
