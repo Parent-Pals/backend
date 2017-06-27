@@ -47,27 +47,29 @@ router.post('/register', (req, res, next) => {
 
 
 router.post('/login', (req, res, next)=>{
-  if(validators.validUser(req.body)){
+  console.log(req.body)
+  if(validators.validUserLogin(req.body)){
     queries.getParentByEmail(req.body.email)
     .then ((parent) => {
+      console.log('parent', parent)
       if(parent){
         jwt.sign({
-          id
+          id: parent.id
         }, process.env.TOKEN_SECRET, {expiresIn: '2h'}, (err, token)=> {
           console.log('err', err);
           console.log('token', token);
           res.json({
-            id,
+            id: parent.id,
             token,
             message: 'I work'
           })
         });
       } else {
-        next(new Error('Invalid Login!'))
+        next(new Error('Invalid Login1!'))
       }
     })
   }else {
-    next (new Error('Invalid Login!'))
+    next (new Error('Invalid Login!2'))
   }
 })
 
