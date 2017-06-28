@@ -14,7 +14,11 @@ router.get('/:id', authMiddleware.allowAccess, function(req, res, next) {
 });
 
 router.post('/:id/', authMiddleware.allowAccess, function(req, res){
-  queries.createChild(req.body)
+  let child = {
+    parent_id: req.params.id,
+    name: req.body.name
+  }
+  queries.createChild(child)
   .then(results=>{
     res.send(results[0]);
   })

@@ -53,17 +53,25 @@ router.post('/login', (req, res, next)=>{
     .then ((parent) => {
       console.log('parent', parent)
       if(parent){
-        jwt.sign({
-          id: parent.id
-        }, process.env.TOKEN_SECRET, {expiresIn: '2h'}, (err, token)=> {
-          console.log('err', err);
-          console.log('token', token);
-          res.json({
-            id: parent.id,
-            token,
-            message: 'I work'
-          })
-        });
+        bcrypt.compare(req.body.password, parent.password)
+        .then((result)=>{
+          if (result){
+            jwt.sign({
+              id: parent.id
+            }, process.env.TOKEN_SECRET, {expiresIn: '2h'}, (err, token)=> {
+              console.log('err', err);
+              console.log('token', token);
+              res.json({
+                id: parent.id,
+                token,
+                message: 'I work'
+              })
+            });
+          }else{
+            next(new Error('Invalid!'))
+          }
+        })
+
       } else {
         next(new Error('Invalid Login1!'))
       }
