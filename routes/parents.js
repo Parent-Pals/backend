@@ -36,13 +36,23 @@ router.delete('/:id/:childID', authMiddleware.allowAccess, function(req, res){
 })
 
 router.get('/:id/:childID', authMiddleware.allowAccess, function(req, res){
+  let response = {}
   let parentID = req.params.id
   let childID = req.params.childID
-  let child = queries.getChild(parentID, childID)
-  let rewards = queries.getChildReward(parentID, childID)
-  let tasks = queries.getChildTask(parentID, childID)
-    Promise.all([child,rewards,tasks]).then(child=>{
-      res.json(child)
+  queries.getChild(parentID, childID)
+    .then(childResponse => {
+      response.child = childResponse
+      return queries.getChildReward(parentID, childID)
+    })
+    .then(childReward => {
+      response.rewards = childReward
+      return queries.getChildTask(parentID, childID)
+    })
+    .then(childTasks => {
+      return response.tasks = childTasks
+    })
+  .then(data=>{
+      return res.json(response)
     })
 })
 
