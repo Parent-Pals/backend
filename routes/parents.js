@@ -55,7 +55,7 @@ router.post('/:id/:childID/task', authMiddleware.allowAccess, function(req, res)
     })
 })
 
-router.post('/:id/:childID/reward', authMiddleware.allowAccess, function(req, res){
+router.post('/reward/:id/:childID', authMiddleware.allowAccess, function(req, res){
   let childID = req.params.childID;
   let reward = {name: req.body.name, point_value: req.body.point_value, child_id: childID};
   queries.createReward(reward)
