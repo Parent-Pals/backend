@@ -13,7 +13,8 @@ const pug = require('pug');
 var app = express();
 
 var parents = require('./routes/parents');
-const auth = require('./auth/auth')
+const auth = require('./auth/auth');
+const admin = require('./routes/admin')
 
 // view engine setup
 // app.set('views', path.join(__dirname, 'views'));
@@ -30,6 +31,7 @@ app.use(cors());
 // app.use('/', index);
 app.use('/parent', parents);
 app.use('/auth', auth);
+app.use('/admin', admin)
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

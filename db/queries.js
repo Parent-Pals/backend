@@ -1,6 +1,11 @@
 const knex = require('./knex');
 
 module.exports = {
+  getAllParents: function() {
+    return knex('parent')
+    .join('child', 'parent.id', '=', 'child.parent_id')
+    .select('parent.id', 'parent.name', 'child.name as child_name')
+  },
   getParentInfo: function(id){
     return knex('parent').where('id', id).select('id', 'name');
   },
