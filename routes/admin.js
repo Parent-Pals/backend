@@ -5,9 +5,9 @@ const queries = require('../db/queries')
 const authMiddleware = require('../auth/middleware.js')
 
 router.get('/:id', authMiddleware.allowAccess, (req, res, next) => {
-  console.log(queries.getAllParents());
-  res.json(queries.getAllParents())
+  queries.getAllParents().then(parent => {
+    res.json(parent)
+  })
 })
-
 
 module.exports = router

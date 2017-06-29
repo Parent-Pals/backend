@@ -2,9 +2,20 @@ const knex = require('./knex');
 
 module.exports = {
   getAllParents: function() {
-    return knex('parent')
-    .join('child', 'parent.id', '=', 'child.parent_id')
-    .select('parent.id', 'parent.name', 'child.name as child_name')
+    return Promise.all(
+      knex('parent')
+    ).then(results =>{
+      return parents = Promise.all(
+      results.map(parent => {
+        return knex('child')
+        .where('parent.id', 'parent_id')
+        .then(child => {
+          parent.child = child
+        })
+      }).then(()=> {
+        return parents;
+      })
+    }))
   },
   getParentInfo: function(id){
     return knex('parent').where('id', id).select('id', 'name');
