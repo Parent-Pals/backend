@@ -36,11 +36,13 @@ router.post('/register', (req, res, next) => {
         })
       }
       else {
+        res.status(404)
         next(new Error('Email in use'))
       }
     })
   }
   else {
+    res.status(404)
     next(new Error('Invalid user'))
   }
 })
@@ -68,16 +70,19 @@ router.post('/login', (req, res, next)=>{
               })
             });
           }else{
-            next(new Error('Invalid!'))
+            res.status(404)
+            next(new Error('Invalid User!'))
           }
         })
 
       } else {
-        next(new Error('Invalid Login1!'))
+        res.status(404)
+        next(new Error('Invalid Login!'))
       }
     })
   }else {
-    next (new Error('Invalid Login!2'))
+    res.status(404)
+    next (new Error('Invalid Login!'))
   }
 })
 
