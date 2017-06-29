@@ -80,8 +80,8 @@ router.delete('/:id/:childID/task/:taskID', authMiddleware.allowAccess, function
 
 router.delete('/:id/:childID/reward/:rewardID', authMiddleware.allowAccess, function(req, res){
   let childID = req.params.childID;
-  let rewardID = req.params.taskID;
-  queries.deleteReward(childID, taskID)
+  let rewardID = req.params.rewardID;
+  queries.deleteReward(childID, rewardID)
     .then(()=>{
       res.json({
         deleted: true
