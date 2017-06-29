@@ -92,7 +92,7 @@ router.delete('/:id/:childID/reward/:rewardID', authMiddleware.allowAccess, func
 router.put('/:id/:childID', authMiddleware.allowAccess, function(req, res){
   let parentID = req.params.id;
   let childID = req.params.childID;
-  queries.updatePoints(parentID, childID, req.body.points)
+  queries.updatePoints(parentID, childID, req.body)
     .then(child=>{
       res.json(child[0])
     })

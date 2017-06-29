@@ -1,11 +1,6 @@
 const knex = require('./knex');
 
 module.exports = {
-  getAllParents: function(){
-    return knex('parent')
-    .join('child', 'parent.id', 'child.parent_id')
-    .select('parent.name', 'parent.id', 'child.name as child_name');
-  },
   getParentInfo: function(id){
     return knex('parent').where('id', id).select('id', 'name');
   },
@@ -50,6 +45,6 @@ module.exports = {
     })
 },
   updatePoints: function(parentID, childID, points){
-    return knex('child').where('id', childID).andWhere('parent_id', parentID).update('points', points)
+    return knex('child').where('id', childID).andWhere('parent_id', parentID).update('points', points);
   }
 }
