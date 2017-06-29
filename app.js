@@ -13,7 +13,7 @@ const pug = require('pug');
 var app = express();
 
 var parents = require('./routes/parents');
-const auth = require('./auth/auth')
+const auth = require('./auth/auth');
 const admin = require('./routes/admin')
 
 // view engine setup
