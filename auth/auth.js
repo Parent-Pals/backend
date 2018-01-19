@@ -10,7 +10,6 @@ router.post('/register', (req, res, next) => {
   if (validators.validUser(req.body)) {
     queries.getParentByEmail(req.body.email)
     .then(parent => {
-      console.log(parent)
       if(!parent){
         bcrypt.hash(req.body.password, 10)
         .then(hash => {
@@ -24,8 +23,6 @@ router.post('/register', (req, res, next) => {
             jwt.sign({
               id
             }, process.env.TOKEN_SECRET, {expiresIn: '2h'}, (err, token)=> {
-              console.log('err', err);
-              console.log('token', token);
               res.json({
                 id,
                 token,
@@ -49,11 +46,9 @@ router.post('/register', (req, res, next) => {
 
 
 router.post('/login', (req, res, next)=>{
-  console.log(req.body)
   if(validators.validUserLogin(req.body)){
     queries.getParentByEmail(req.body.email)
     .then ((parent) => {
-      console.log('parent', parent)
       if(parent){
         bcrypt.compare(req.body.password, parent.password)
         .then((result)=>{
@@ -61,8 +56,6 @@ router.post('/login', (req, res, next)=>{
             jwt.sign({
               id: parent.id
             }, process.env.TOKEN_SECRET, {expiresIn: '2h'}, (err, token)=> {
-              console.log('err', err);
-              console.log('token', token);
               res.json({
                 id: parent.id,
                 token,

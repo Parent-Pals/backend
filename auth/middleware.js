@@ -22,12 +22,10 @@ require('dotenv').config();
 
 function allowAccess(req, res, next){
   const authHeader = req.get('Authorization');
-  console.log('authheader', authHeader);
   const token = authHeader.split(' ')[1]
   // console.log(token);
   if(token){
     jwt.verify(token, process.env.TOKEN_SECRET, (err, decoded) => {
-      console.log('here', err, decoded);
       if(!err && req.params.id == decoded.id) return next();
       res.status(401)
       next(new Error('Un-Authorized'))
